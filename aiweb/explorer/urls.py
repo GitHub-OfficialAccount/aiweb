@@ -3,5 +3,6 @@ from . import views
 
 app_name = 'explorer'
 urlpatterns = [
-    path('', views.index, name = 'index'),
+    path('', views.upload, name = 'upload'),
+    path('show', views.show, name = 'show')
 ]
