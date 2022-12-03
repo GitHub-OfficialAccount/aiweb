@@ -4,6 +4,14 @@
     <title>Result</title>
 </head>
 <body>
-    
+    {% for each in images %}
+    <img src="{{each.image.url}}" width="100px"><br>
+    {% endfor %}
+    <a href="{% url 'explorer:upload' %}">Back to upload</a>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Remove ALL photos">
+    </form>
 </body>
 </html>

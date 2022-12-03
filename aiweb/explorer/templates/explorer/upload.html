@@ -11,13 +11,19 @@
     <h1>Testing</h1>
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <input type="file" name="images" multiple>
+        <!-- {{ form.as_p }} -->
         <input type="submit">
     </form>
-    {% if img_obj %}
-    <h2>Successfully uploaded: {{img_obj.title}}</h2>
-    <img src="{{ img_obj.image.url }}" alt="testing" style="max-height: 100px;">
+    {% if images %}
+    <h2>Successfully uploaded:</h2><br>
     {% endif %}
+    {% for img in images %}
+    <img src="{{ img.image.url }}" alt="Image" style="max-height: 100px;">
+    {% endfor %}
+
+    <br>
+    <a href="{% url 'explorer:show' %}">Show current images</a>
 
 </body>
 </html>
