@@ -5,18 +5,16 @@ document.addEventListener('DOMContentLoaded',function() {
 function previewImages() {
 
     var preview = document.querySelector('#preview');
+
+    // remove all child elements before appending
+    preview.innerHTML = '';
     
     if (this.files) {
       [].forEach.call(this.files, readAndPreview);
     }
   
     function readAndPreview(file) {
-  
-      // File type validator based on the extension 
-      if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
-        return alert(file.name + " is not an image");
-      }
-      
+
       var reader = new FileReader();
       
       reader.addEventListener("load", function() {
