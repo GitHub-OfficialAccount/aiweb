@@ -15,8 +15,10 @@ def detect(image): #used for django app
     
     assert os.path.exists(path_image)
     
-    print(path_image)
-    detector.onImage(path_image)
+    output = detector.getImage(path_image)
+
+    return output.get_image()[:,:,::-1]
+
 
 ### USE THIS FOR TESTING IN VSCODE ###
 def detect_for_python(image): 
@@ -27,4 +29,4 @@ def detect_for_python(image):
     path_detectron2 = os.path.abspath('detectron_aiweb')
     path_image = os.path.join(path_detectron2,'images',image)
 
-    detector.onImage(path_image)
+    detector.showImage(path_image)

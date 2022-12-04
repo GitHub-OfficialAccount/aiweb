@@ -20,6 +20,9 @@
     {% endif %}
     {% for img in images %}
     <img src="{{ img.image.url }}" alt="Image" style="max-height: 100px;">
+    <br>
+    Uploaded to: {{img.image.url}}
+    <br>
     {% endfor %}
 
     <br>

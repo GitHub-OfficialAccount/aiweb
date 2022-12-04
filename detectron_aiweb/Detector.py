@@ -20,7 +20,7 @@ class Detector():
 
         self.predictor = DefaultPredictor(self.cfg)
 
-    def onImage(self,imagePath):
+    def getImage(self,imagePath):
         image = cv2.imread(imagePath)
         predictions = self.predictor(image)
 
@@ -29,7 +29,11 @@ class Detector():
         instance_mode = ColorMode.IMAGE_BW)
 
         output = viz.draw_instance_predictions(predictions['instances'].to('cpu'))
-        
+
+        return output 
+
+    def showImage(self,imagePath):
+        output = self.getImage(imagePath)
         cv2.imshow('Result', output.get_image()[:,:,::-1])
         cv2.waitKey(0)
 

@@ -10,8 +10,6 @@ import os
 
 app_name = 'explorer'
 
-photos = []
-
 # Create your views here.
 def upload(request):
     ##Process images uploaded by users###
@@ -62,8 +60,20 @@ def remove_all_images():
         image_path = os.path.join(images_path,image)
         os.remove(image_path)
 
-def detection(request):
-    detect('sheep.jpg')
-    return render(request, "explorer/detection.html", {
+from PIL import Image as im
 
+def detection(request):
+    img_name = 'sheep.jpg'
+    image = detect(img_name) #ndarray
+    image = im.fromarray(image) #convert to image
+    parent_path = os.path.abspath('media') 
+    images_path = os.path.join(parent_path,'images')
+
+    assert os.path.exists(images_path)
+    
+    image.save(f'{images_path}/{img_name}')
+    img_path = f'/media/images/{img_name}'
+
+    return render(request, "explorer/detection.html", {
+        'img_path':img_path
     })
