@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from .forms import ImageForm
 from .filehandler import handle_uploaded_file
 from .models import Image
+
+from .functions import detect
+
 import os
 
 app_name = 'explorer'
@@ -53,9 +56,14 @@ def show(request):
 def remove_all_images():
     Image.objects.all().delete()
     parent_path = os.path.abspath('media') 
-    images_path = os.path.join('media','images')   
+    images_path = os.path.join(parent_path,'images')   
     all_images = os.listdir(images_path)
     for image in all_images:
         image_path = os.path.join(images_path,image)
         os.remove(image_path)
 
+def detection(request):
+    detect('sheep.jpg')
+    return render(request, "explorer/detection.html", {
+
+    })
