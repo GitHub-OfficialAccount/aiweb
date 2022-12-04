@@ -5,16 +5,17 @@
 <head>
     <title>Document</title>
     <link rel = 'stylesheet' href = "{% static 'explorer/styles.css' %}">
-    <script></script>
+    <script src="{% static 'explorer/upload.js' %}"></script>
 </head>
 <body>
     <h1>Testing</h1>
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
-        <input type="file" name="images" multiple>
+        <input id="img-selector" type="file" name="images" multiple>
         <!-- {{ form.as_p }} -->
         <input type="submit">
     </form>
+    <div id="preview"></div>
     {% if images %}
     <h2>Successfully uploaded:</h2><br>
     {% endif %}
