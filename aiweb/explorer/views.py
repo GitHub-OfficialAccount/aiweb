@@ -63,17 +63,26 @@ def remove_all_images():
 from PIL import Image as im
 
 def detection(request):
-    img_name = 'sheep.jpg'
-    image = detect(img_name) #ndarray
-    image = im.fromarray(image) #convert to image
-    parent_path = os.path.abspath('media') 
-    images_path = os.path.join(parent_path,'images')
+    django_img_path = None
 
-    assert os.path.exists(images_path)
-    
-    image.save(f'{images_path}/{img_name}')
-    img_path = f'/media/images/{img_name}'
+    if request.method == 'POST':
+        image = request.FILES['image']
+        img_name = image.name
+
+        image = im.open(image)
+        parent_path = os.path.abspath('media') 
+        images_path = os.path.join(parent_path,'images')
+        img_path = f'{images_path}/{img_name}'
+        image.save(img_path)
+
+        returned_image = detect(img_path, is_path=True) #ndarray
+        returned_image = im.fromarray(returned_image) #convert to image
+
+        assert os.path.exists(img_path)
+        
+        returned_image.save(img_path)
+        django_img_path = f'/media/images/{img_name}'
 
     return render(request, "explorer/detection.html", {
-        'img_path':img_path
+        'img_path':django_img_path
     })

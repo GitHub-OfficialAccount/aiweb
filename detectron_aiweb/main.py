@@ -1,18 +1,21 @@
 from Detector import *
 import os
 
-def detect(image): #used for django app
+def detect(image, is_path=False): #used for django app
     detector = Detector()
-    ### the following path is done based on explorer/views.py ###
-    ### eg. sys.path should return the path of views.py rather than this file ###
-    path = os.getcwd()
-    parent_path = os.path.dirname(path)
-    detectron_path = os.path.join(parent_path,'detectron_aiweb')
+    if is_path == False:
+        ### the following path is done based on explorer/views.py ###
+        ### eg. sys.path should return the path of views.py rather than this file ###
+        path = os.getcwd()
+        parent_path = os.path.dirname(path)
+        detectron_path = os.path.join(parent_path,'detectron_aiweb')
 
-    assert os.path.exists(detectron_path)
+        assert os.path.exists(detectron_path)
 
-    path_image = os.path.join(detectron_path,'images',image)
-    
+        path_image = os.path.join(detectron_path,'images',image)
+    else: 
+        path_image = image
+
     assert os.path.exists(path_image)
     
     output = detector.getImage(path_image)

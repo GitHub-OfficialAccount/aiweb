@@ -5,6 +5,11 @@
 </head>
 <body>
     <h1>Detection testing</h1>
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <input type="file" name="image" accept=".jpeg,.jpg,.png">
+        <input type="submit">
+    </form>
     {% if img_path %}
     <img src="{{ img_path }}" alt="Image" style="height: 500px; width:auto">
     {% endif %}
