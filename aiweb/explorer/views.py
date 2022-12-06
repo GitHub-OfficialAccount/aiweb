@@ -5,12 +5,34 @@ from .filehandler import handle_uploaded_file
 from .models import Image
 
 from .functions import detect
+from .functions import generate_images, generate_images_path, get_stored_dir
 
-import os
+import os, shutil
 
 app_name = 'explorer'
 
 # Create your views here.
+def find_images(request):
+    if request.method == 'POST':
+        keywords = request.POST.get('keywords').replace(' ','_')
+        assert keywords
+        img_count = int(request.POST.get('count'))
+        assert img_count
+        dic=[keywords,img_count]
+        stored_dir = get_stored_dir(keywords)
+        generate_images(keywords,img_count,stored_dir, generate_images_path)
+        path = generate_images_path
+        shutil.make_archive(keywords, 'zip', path)
+        new_path = os.path.join(os.getcwd(),keywords)
+        zip_path = f'{new_path}.zip'
+        return render(request, 'explorer/find_images.html', {
+        'dic':dic,
+        'path':zip_path,
+        })
+    return render(request, 'explorer/find_images.html', {
+        
+    })
+
 def upload(request):
     ##Process images uploaded by users###
     # if request.method == 'POST':

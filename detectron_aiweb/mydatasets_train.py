@@ -13,8 +13,7 @@ from mydatasets_utils import *
 config_file_path = "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
 checkpoint_url = "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
 
-# path = os.getcwd() ##for django
-path = os.path.abspath('detectron_aiweb')
+path = os.getcwd()
 
 output_dir = os.path.join(path, "mydatasets_output/object_detection")
 

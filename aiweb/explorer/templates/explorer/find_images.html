@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        Keywords: <input name="keywords" type="text" placeholder="Enter keywords for searching">
+        <br>
+        Image Count: <input name="count" type="text" placeholder="Enter the number of images to generate">
+        <br>
+        <input type="submit" value="Find images">
+    </form>
+    Returned: {{dic}}
+    <br>
+    {% if path %}
+    <a href="{{path}}" download>Download link</a>
+    {% endif %}
+</body>
+</html>

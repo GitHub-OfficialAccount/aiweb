@@ -4,8 +4,6 @@ import os
 def detect(image, is_path=False): #used for django app
     detector = Detector()
     if is_path == False:
-        ### the following path is done based on explorer/views.py ###
-        ### eg. sys.path should return the path of views.py rather than this file ###
         path = os.getcwd()
         parent_path = os.path.dirname(path)
         detectron_path = os.path.join(parent_path,'detectron_aiweb')
@@ -29,7 +27,7 @@ def detect_for_python(image):
 
     import os
     #get image path
-    path_detectron2 = os.path.abspath('detectron_aiweb')
+    path_detectron2 = os.getcwd()
     path_image = os.path.join(path_detectron2,'images',image)
 
     detector.showImage(path_image)

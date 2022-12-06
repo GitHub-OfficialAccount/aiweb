@@ -5,8 +5,7 @@ import pickle
 
 from mydatasets_utils import *
 
-# path = os.getcwd() ##for django
-path = os.path.abspath('detectron_aiweb')
+path = os.getcwd()
 
 cfg_save_path = os.path.join(path,'OD_cfg.pickle')
 
