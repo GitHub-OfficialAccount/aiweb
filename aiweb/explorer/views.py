@@ -14,6 +14,7 @@ app_name = 'explorer'
 # Create your views here.
 def find_images(request):
     if request.method == 'POST':
+        print('form post response received\n'*10)
         keywords = request.POST.get('keywords').replace(' ','_')
         assert keywords
         img_count = int(request.POST.get('count'))
