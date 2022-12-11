@@ -108,3 +108,21 @@ def detection(request):
     return render(request, "explorer/detection.html", {
         'img_path':django_img_path
     })
+
+def train(request):
+    return render(request, 'explorer/train.html', {})
+
+def About(request):
+    return render(request, 'explorer/About.html', {})
+
+def What_is_AI(request):
+    return render(request, 'explorer/What_is_AI.html', {})
+
+def Steps(request):
+    return render(request, 'explorer/Steps.html', {})
+
+def Home(request):
+    return render(request, 'explorer/Home.html', {})
+
+def Contact(request):
+    return render(request, 'explorer/Contact.html', {})
