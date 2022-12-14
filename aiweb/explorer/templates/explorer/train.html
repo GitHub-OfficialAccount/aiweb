@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="{% static 'explorer/Train.css' %}" media="screen">
     <script class="u-script" type="text/javascript" src="{% static 'explorer/jquery.js' %}" defer=""></script>
     <script class="u-script" type="text/javascript" src="{% static 'explorer/nicepage.js' %}" defer=""></script>
+    <script src="{% static 'explorer/train.js' %}"></script>
     <meta name="generator" content="Nicepage 5.0.7, nicepage.com">
     <meta name="referrer" content="origin">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
@@ -68,21 +69,48 @@
       </div></header>
     <section class="u-clearfix u-section-1" id="sec-1960">
       <div class="u-clearfix u-sheet u-sheet-1">
-        <h4 class="u-text u-text-default u-text-1">Upload files</h4>
+        <h4 class="u-text u-text-default u-text-1">Upload files before training</h4>
         <div class="u-form u-form-1">
-          <form action="https://forms.nicepagesrv.com/Form/Process" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px;" source="email">
-            <div class="u-form-email u-form-group u-label-none">
-              <label for="email-ef64" class="u-label">Email</label>
-              <input type="email" placeholder="<change>" id="email-ef64" name="count" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
+
+          <form id="form1" enctype="multipart/form-data" class="u-clearfix u-form-spacing-15 u-inner-form" style="padding: 15px;" method="post">
+            {% csrf_token %}
+            <div class="u-form-group u-form-name u-label-none">
+
+              <input id="img-selector" type="file" name="images" accept=".jpeg,.jpg,.png" multiple>
+              <input id="jsonfile" type="file" name="jsonfile" accept=".json" multiple>
+
             </div>
             <div class="u-form-group u-form-submit">
-              <a href="#" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-hover-black u-none u-text-black u-text-hover-white u-btn-1">Start training</a>
+              <a href="#" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-hover-black u-none u-text-black u-text-hover-white u-btn-1">Upload</a>
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
-            <div class="u-form-send-message u-form-send-success">#FormSendSuccess</div>
-            <div class="u-form-send-error u-form-send-message">#FormSendError</div>
-            <input type="hidden" value="" name="recaptchaResponse">
+
+            <div id="preview"></div>
+            {% if images %}
+            <h2>Successfully uploaded:</h2><br>
+            {% endif %}
+            {% for img in images %}
+            <img src="{{ img.image.url }}" alt="Image" style="max-height: 100px;">
+            <br>
+            Uploaded to: {{img.image.url}}
+            <br>
+            {% endfor %}
+        
+            <br>
+            <a href="{% url 'explorer:show' %}">Show current images</a>
+
           </form>
+
+          {% if images %}
+          <form id="form2" class="u-clearfix u-form-spacing-15 u-inner-form" style="padding: 15px;" method="post">
+            {% csrf_token %}
+            <div class="u-form-group u-form-submit">
+              <a href="#" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-hover-black u-none u-text-black u-text-hover-white u-btn-1">Start Training</a>
+              <input type="submit" value="submit" class="u-form-control-hidden">
+            </div>
+          </form>
+          {% endif %}
+
         </div>
       </div>
     </section>

@@ -14,16 +14,24 @@ app_name = 'explorer'
 # Create your views here.
 def find_images(request):
     if request.method == 'POST':
-        print('form post response received\n'*10)
-        keywords = request.POST.get('keywords').replace(' ','_')
+        print('form post response received\n'*10) #test
+        #fetch form response
+        keywords = request.POST.get('keywords').replace(' ','_') #format
+
         assert keywords
+
         img_count = int(request.POST.get('count'))
+
         assert img_count
-        dic=[keywords,img_count]
+
+        dic=[keywords,img_count] #test
+
         stored_dir = get_stored_dir(keywords)
-        generate_images(keywords,img_count,stored_dir, generate_images_path)
+        generate_images(keywords,img_count,stored_dir, generate_images_path) #simple_images module
         path = generate_images_path
+        #generate zip file
         shutil.make_archive(keywords, 'zip', path)
+        #generate zip file path for client-side download
         new_path = os.path.join(os.getcwd(),keywords)
         zip_path = f'{new_path}.zip'
         return render(request, 'explorer/find_images.html', {
@@ -74,14 +82,23 @@ def show(request):
         'images':images,
     })
 
-def remove_all_images():
-    Image.objects.all().delete()
-    parent_path = os.path.abspath('media') 
-    images_path = os.path.join(parent_path,'images')   
+
+
+def remove_all_images(execution=True,path=None):
+    if path == None: #default
+        Image.objects.all().delete()
+        parent_path = os.path.abspath('media') 
+        images_path = os.path.join(parent_path,'images')  
+    else: images_path = path #manual 
+
     all_images = os.listdir(images_path)
+
     for image in all_images:
         image_path = os.path.join(images_path,image)
-        os.remove(image_path)
+        if execution: os.remove(image_path) #remove images
+        else: pass #do nothing
+    return all_images
+    
 
 from PIL import Image as im
 
@@ -95,7 +112,7 @@ def detection(request):
         image = im.open(image)
         parent_path = os.path.abspath('media') 
         images_path = os.path.join(parent_path,'images')
-        img_path = f'{images_path}/{img_name}'
+        img_path = f'{images_path}/{img_name}' #test
         image.save(img_path)
 
         returned_image = detect(img_path, is_path=True) #ndarray
@@ -111,7 +128,21 @@ def detection(request):
     })
 
 def train(request):
-    return render(request, 'explorer/train.html', {})
+    all_images = [] #default none
+    
+    if request.method == "POST":
+        print('form post response received\n'*10) #test
+
+        images = request.FILES.getlist('images')
+        for image in images:
+            try: 
+                img_obj = Image.objects.create(title='none',image=image)
+                all_images.append(img_obj)
+            except: pass
+
+    return render(request, 'explorer/train.html', {
+        'images': all_images
+    })
 
 def About(request):
     return render(request, 'explorer/About.html', {})
