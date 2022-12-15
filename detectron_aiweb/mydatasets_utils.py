@@ -34,7 +34,7 @@ def get_train_cfg(config_file_path, checkpoint_url, train_dataset_name, test_dat
     ###change if cpu is slow (eg, reduce iteration) ###
     cfg.SOLVER.IMS_PER_BATCH = 2
     cfg.SOLVER.BASE_LR = 0.00025
-    cfg.SOLVER.MAX_ITER = 20
+    cfg.SOLVER.MAX_ITER = 1000
     cfg.SOLVER.STEPS = []
 
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = num_classes

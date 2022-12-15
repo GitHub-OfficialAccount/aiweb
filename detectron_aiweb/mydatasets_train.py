@@ -13,13 +13,17 @@ from mydatasets_utils import *
 config_file_path = "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
 checkpoint_url = "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
 
-path = os.getcwd()
+# path = os.getcwd()
+path = os.path.dirname(os.getcwd())
+path = os.path.join(path,'detectron_aiweb')
+
+assert os.path.exists(path)
 
 output_dir = os.path.join(path, "mydatasets_output/object_detection")
 
-num_classes = 3 #depends on how many types of object are being identified
+num_classes = 1 #depends on how many types of object are being identified
 
-device = "cpu" #or cuda
+device = "cuda" #cpu or cuda
 
 train_dataset_name = "RBC_train"
 train_images_path =  os.path.join(path,"mydatasets_train")
@@ -66,7 +70,7 @@ def main():
 
     trainer.train()
 
-if __name__ == '__main__':
+if __name__ == '__main__': #prevent import-driven execution
     main()
 
 ### the smaller loss, the higher accuracy

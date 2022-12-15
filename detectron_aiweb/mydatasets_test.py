@@ -22,7 +22,7 @@ test_images_path = os.path.join(path,"mydatasets_test")
 
 assert os.path.exists(test_images_path)
 
-image_name = "BloodImage_00038_jpg.rf.ffa23e4b5b55b523367f332af726eae8.jpg" #to be filled in
+image_name = "cars_with_liscence_plate_4.jpeg" #to be filled in
 image_path = os.path.join(test_images_path,image_name)
 video_path = '' #to be filled in
 
