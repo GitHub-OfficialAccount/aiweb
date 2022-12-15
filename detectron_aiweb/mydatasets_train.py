@@ -21,7 +21,7 @@ assert os.path.exists(path)
 
 output_dir = os.path.join(path, "mydatasets_output/object_detection")
 
-num_classes = 1 #depends on how many types of object are being identified
+num_classes = 3 #depends on how many types of object are being identified
 
 device = "cuda" #cpu or cuda
 

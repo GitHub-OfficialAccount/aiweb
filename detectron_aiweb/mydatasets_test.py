@@ -5,7 +5,11 @@ import pickle
 
 from mydatasets_utils import *
 
-path = os.getcwd()
+# path = os.getcwd()
+path = os.path.dirname(os.getcwd())
+path = os.path.join(path,'detectron_aiweb')
+
+assert os.path.exists(path)
 
 cfg_save_path = os.path.join(path,'OD_cfg.pickle')
 
@@ -22,9 +26,12 @@ test_images_path = os.path.join(path,"mydatasets_test")
 
 assert os.path.exists(test_images_path)
 
-image_name = "cars_with_liscence_plate_4.jpeg" #to be filled in
+image_name = "BloodImage_00038_jpg.rf.ffa23e4b5b55b523367f332af726eae8.jpg" #to be filled in
 image_path = os.path.join(test_images_path,image_name)
 video_path = '' #to be filled in
 
-on_image(image_path, predictor)
+def read_img(image_path=image_path):
+    img = on_image(image_path, predictor)
+    return img
+
 # onvideo(video_path, predictor)

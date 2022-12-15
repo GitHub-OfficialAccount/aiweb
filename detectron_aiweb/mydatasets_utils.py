@@ -50,9 +50,10 @@ def on_image(image_path, predictor):
     v = Visualizer(im[:,:,::-1], metadata={}, scale=0.5, instance_mode=ColorMode.SEGMENTATION)
     v = v.draw_instance_predictions(outputs["instances"].to('cpu'))
 
-    plt.figure(figsize=(14,10))
-    plt.imshow(v.get_image())
-    plt.show()
+    # plt.figure(figsize=(14,10))
+    # plt.imshow(v.get_image())
+    # plt.show()
+    return v.get_image()
 
 def onvideo(videoPath, predictor):
     cap = cv2.VideoCapture(videoPath)
