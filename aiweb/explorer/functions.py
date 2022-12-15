@@ -9,7 +9,6 @@ detectron_path = os.path.join(parent_path,'detectron_aiweb')
 assert os.path.exists(detectron_path)
 sys.path.append(detectron_path)
 
-from main import detect
 from mydatasets_generation import generate_images
 from mydatasets_train import main
 
@@ -18,6 +17,9 @@ generate_jsonfile_path = os.path.join(detectron_path, 'mydatasets_train.json')
 generate_images_path_test = os.path.join(detectron_path, 'mydatasets_test')
 generate_jsonfile_path_test = os.path.join(detectron_path, 'mydatasets_test.json')
 
+from mydatasets_test import read_img
+def detect(img_path):
+    return read_img(img_path)
 
 def get_stored_dir(keywords):
     stored_dir = os.path.join(path,'simple_images',keywords)

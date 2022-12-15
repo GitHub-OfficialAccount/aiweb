@@ -121,17 +121,21 @@ def detection(request):
         image = request.FILES['image']
         img_name = image.name
 
+        #save received image
         image = im.open(image)
         parent_path = os.path.abspath('media') 
         images_path = os.path.join(parent_path,'images')
-        img_path = f'{images_path}/{img_name}' #test
-        image.save(img_path)
-
-        returned_image = detect(img_path, is_path=True) #ndarray
-        returned_image = im.fromarray(returned_image) #convert to image
+        if not os.path.exists(images_path): os.mkdir(images_path)
+        img_path = os.path.join(images_path,img_name)
+        image.save(img_path) 
 
         assert os.path.exists(img_path)
+
+        #detect received image
+        returned_image = detect(img_path) #ndarray
+        returned_image = im.fromarray(returned_image) #convert to image
         
+        #save detected image
         returned_image.save(img_path)
         django_img_path = f'/media/images/{img_name}'
 

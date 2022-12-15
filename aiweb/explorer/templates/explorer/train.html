@@ -75,6 +75,9 @@
           <form id="form1" enctype="multipart/form-data" class="u-form-spacing-15 u-inner-form" style="padding: 15px;" method="post">
             {% csrf_token %}
             <div>
+              <!-- This is required to omit the first multiple file input, because the somehow the first one only accepts 10 files-->
+              <input type="file" style="display:none; visibility:hidden" multiple>
+              
               Image(train):<input id="img-selector" type="file" name="images" accept=".jpeg,.jpg,.png" multiple>
 
               Json(train):<br><input id="jsonfile" type="file" name="jsonfile" accept=".json">
@@ -121,7 +124,7 @@
 
         </div>
       </div>
-      <div id="preview"></div>
+      <div id="preview"></div><br>
       <div id="preview2"></div>
     </section>
     
