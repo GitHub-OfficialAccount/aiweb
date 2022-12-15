@@ -72,12 +72,16 @@
         <h4 class="u-text u-text-default u-text-1">Upload files before training</h4>
         <div class="u-form u-form-1">
 
-          <form id="form1" enctype="multipart/form-data" class="u-clearfix u-form-spacing-15 u-inner-form" style="padding: 15px;" method="post">
+          <form id="form1" enctype="multipart/form-data" class="u-form-spacing-15 u-inner-form" style="padding: 15px;" method="post">
             {% csrf_token %}
-            <div class="u-form-group u-form-name u-label-none">
+            <div>
+              Image(train):<input id="img-selector" type="file" name="images" accept=".jpeg,.jpg,.png" multiple>
 
-              <input id="img-selector" type="file" name="images" accept=".jpeg,.jpg,.png" multiple>
-              <input id="jsonfile" type="file" name="jsonfile" accept=".json" multiple>
+              Json(train):<br><input id="jsonfile" type="file" name="jsonfile" accept=".json">
+
+              Image(test):<br><input id="img-selector2" type="file" name="images2" accept=".jpeg,.jpg,.png" multiple><br>
+
+              Json(test):<br><input id="jsonfile2" type="file" name="jsonfile2" accept=".json">
 
             </div>
             <div class="u-form-group u-form-submit">
@@ -85,19 +89,23 @@
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
 
-            <div id="preview"></div>
-            {% if images %}
-            <h2>Successfully uploaded:</h2><br>
+
+            {% if images and url %}
+            <h2>Successfully uploaded images and json files</h2><br>
             {% endif %}
-            {% for img in images %}
+            <!-- {% for img in images %}
             <img src="{{ img.image.url }}" alt="Image" style="max-height: 100px;">
             <br>
-            Uploaded to: {{img.image.url}}
+            Image Uploaded to: {{img.image.url}}
             <br>
-            {% endfor %}
-        
+            {% endfor %} -->
+<!--             
+            {% if url %}
+            JSON File uploaded to: {{url}}
+            {% endif %} -->
+
             <br>
-            <a href="{% url 'explorer:show' %}">Show current images</a>
+            <!-- <a href="{% url 'explorer:show' %}">Show current images</a> -->
 
           </form>
 
@@ -113,6 +121,8 @@
 
         </div>
       </div>
+      <div id="preview"></div>
+      <div id="preview2"></div>
     </section>
     
     

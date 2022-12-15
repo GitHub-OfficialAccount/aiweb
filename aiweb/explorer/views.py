@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import ImageForm
 from .filehandler import handle_uploaded_file
-from .models import Image
+from .models import Image, Image2
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 from .functions import detect
-from .functions import generate_images, generate_images_path, get_stored_dir
+from .functions import generate_images, generate_images_path, get_stored_dir, generate_jsonfile_path, generate_images_path_test, generate_jsonfile_path_test
 
 import os, shutil
 
@@ -99,6 +101,16 @@ def remove_all_images(execution=True,path=None):
         else: pass #do nothing
     return all_images
     
+def move_file(src,dest,cat='image'):
+    allfiles = os.listdir(src)
+    if cat=='image':
+        for f in allfiles:
+            src_path = os.path.join(src,f)
+            dest_path = os.path.join(dest,f)
+            os.replace(src_path, dest_path)
+    elif cat=='file':
+        src_path = os.path.join(src,allfiles[0])
+        os.replace(src_path, dest)
 
 from PIL import Image as im
 
@@ -128,20 +140,70 @@ def detection(request):
     })
 
 def train(request):
-    all_images = [] #default none
+    all_images = [] #default empty
+    store_dir = '' #defualt empty
     
     if request.method == "POST":
-        print('form post response received\n'*10) #test
+        print('form post image response received\n'*10) #test
 
-        images = request.FILES.getlist('images')
-        for image in images:
-            try: 
-                img_obj = Image.objects.create(title='none',image=image)
-                all_images.append(img_obj)
-            except: pass
+        if request.FILES.getlist('images'): #image submitted
+
+            #image handling
+            images = request.FILES.getlist('images')
+            for image in images:
+                try: #prevent error
+                    img_obj = Image.objects.create(title='none',image=image)
+                    all_images.append(img_obj)
+                except: pass
+
+            images = request.FILES.getlist('images2')
+            for image in images:
+                try: #prevent error
+                    img_obj = Image2.objects.create(title='none',image=image)
+                    all_images.append(img_obj)
+                except: pass
+
+            #json file handling
+            jsonfile = request.FILES['jsonfile']
+            storage = FileSystemStorage()
+            jsonfile_name = storage.save(jsonfile.name, jsonfile)
+            store_dir = storage.url(jsonfile_name)
+
+            jsonfile = request.FILES['jsonfile2']
+            storage = FileSystemStorage()
+            jsonfile_name = storage.save(jsonfile.name, jsonfile)
+            store_dir = storage.url(jsonfile_name)
+            
+        else: #start training
+
+            #change image file location 
+            parent_path = os.path.abspath('media') 
+            images_path = os.path.join(parent_path,'images')
+            assert os.path.isdir(images_path)
+            remove_all_images(execution=True,path=generate_images_path)
+            move_file(images_path, generate_images_path)
+            os.rmdir(images_path)
+
+            parent_path = os.path.abspath('media') 
+            images_path = os.path.join(parent_path,'images2')
+            assert os.path.isdir(images_path)
+            remove_all_images(execution=True,path=generate_images_path_test)
+            move_file(images_path, generate_images_path_test)
+            os.rmdir(images_path)
+
+            # change json file location
+            jsonfile_path = os.path.abspath('media')
+            move_file(jsonfile_path, generate_jsonfile_path, 'file')
+
+            jsonfile_path = os.path.abspath('media')
+            move_file(jsonfile_path, generate_jsonfile_path_test, 'file')
+
+            from .functions import main
+            main()
 
     return render(request, 'explorer/train.html', {
-        'images': all_images
+        'images': all_images,
+        'url': store_dir
     })
 
 def About(request):
