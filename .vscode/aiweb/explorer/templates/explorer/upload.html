@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link rel = 'stylesheet' href = "{% static 'explorer/styles.css' %}">
+    <script src="{% static 'explorer/upload.js' %}"></script>
+</head>
+<body>
+    <h1>Testing</h1>
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <input id="img-selector" type="file" name="images" accept=".jpeg,.jpg,.png" multiple>
+        <!-- {{ form.as_p }} -->
+        <input type="submit">
+    </form>
+    <div id="preview"></div>
+    {% if images %}
+    <h2>Successfully uploaded:</h2><br>
+    {% endif %}
+    {% for img in images %}
+    <img src="{{ img.image.url }}" alt="Image" style="max-height: 100px;">
+    <br>
+    Uploaded to: {{img.image.url}}
+    <br>
+    {% endfor %}
+
+    <br>
+    <a href="{% url 'explorer:show' %}">Show current images</a>
+
+</body>
+</html>
