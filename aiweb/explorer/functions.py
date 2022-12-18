@@ -20,8 +20,8 @@ generate_jsonfile_path_test = os.path.join(detectron_path, 'mydatasets_test.json
 def get_stored_dir(keywords):
     stored_dir = os.path.join(path,'simple_images',keywords)
     return stored_dir
-try:
-    from mydatasets_test import read_img
-    def detect(img_path):
+
+from mydatasets_test import read_img
+def detect(img_path):
         return read_img(img_path)
-except: pass
+
