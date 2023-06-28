@@ -1,5 +1,5 @@
 # aiweb
-Website for anyone to learn and utilize AI
+Website for anyone to learn and build their own AI model (for object classification)
 
 ## Status: Deprecated, Abandoned
 
